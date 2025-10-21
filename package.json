@@ -1,0 +1,16 @@
+{
+  "name": "gsap-imageslider",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build",
+    "preview": "vite preview",
+    "setup": "node src/setup-structure.js"
+  },
+  "devDependencies": {
+    "fs-extra": "^11.3.2",
+    "vite": "^7.1.7"
+  }
+}
