@@ -12,5 +12,8 @@
   "devDependencies": {
     "fs-extra": "^11.3.2",
     "vite": "^7.1.7"
+  },
+  "dependencies": {
+    "nodemon": "^3.1.10"
   }
 }
