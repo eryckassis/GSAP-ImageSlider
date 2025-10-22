@@ -16,7 +16,7 @@
   --color-text: #fff;
   --color-text-muted: rgba(255, 255, 255, 0.8);
   --color-text-light: rgba(255, 255, 255, 0.6);
-  --color-accent: #fff;
+  --color-accent: #f3952aff;
   --font-size-mono: clamp(10px, 1.2vw, 12px);
   --spacing-sm: 1rem;
   --spacing-md: 2rem;
@@ -56,7 +56,7 @@ body {
   left: var(--spacing-md);
   transform: translateY(-50%);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 2rem;
   font-weight: 600;
   color: var(--color-text);
   z-index: 3;
@@ -71,7 +71,7 @@ body {
   right: var(--spacing-md);
   transform: translateY(-50%);
   font-family: var(--font-mono);
-  font-size: 12px;
+  font-size: 2rem;
   font-weight: 600;
   color: var(--color-text);
   z-index: 3;
@@ -102,7 +102,7 @@ body {
 
 .slide-progress-line {
   width: 100%;
-  height: 2px;
+  height: 0.2rem;
   background: rgba(255, 255, 255, 0.2);
   margin-bottom: 8px;
   border-radius: 1px;
@@ -114,12 +114,12 @@ body {
   width: 0%;
   background: var(--color-accent);
   transition: width 0.1s ease, opacity 0.3s ease;
-  border-radius: 1px;
+  border-radius: 2px;
 }
 
 .slide-nav-title {
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 1rem;
   text-transform: uppercase;
   letter-spacing: 0.5px;
   color: var(--color-text-muted);
@@ -136,36 +136,251 @@ body {
   top: var(--spacing-md);
   left: var(--spacing-md);
   font-family: var(--font-mono);
-  font-size: 11px;
+  font-size: 1.2rem;
   text-transform: uppercase;
   color: var(--color-text-muted);
   z-index: 3;
 }
 
-/* Tweakpane Styling */
+/* ========================================
+   Tweakpane Styling - AJUSTE FINO
+   ======================================== */
+
+/* Container principal do painel */
 .tp-dfwv {
+  font-size: 11px !important;
   position: fixed !important;
   top: 20px !important;
   right: 20px !important;
   z-index: 1000 !important;
-  max-width: 320px !important;
-  background: rgba(0, 0, 0, 0.9) !important;
+  max-width: 360px !important;
+  background: rgba(0, 0, 0, 0.2) !important;
   -webkit-backdrop-filter: blur(20px) !important;
   backdrop-filter: blur(20px) !important;
-  border: 1px solid rgba(255, 255, 255, 0.1) !important;
-  border-radius: 8px !important;
+  border: 1px solid rgba(255, 255, 255, 0.15) !important;
+  border-radius: 10px !important;
+  padding: 4px !important;
 }
 
+/* Altura e espaçamento dos controles */
+.tp-brkv {
+  height: auto !important;
+  min-height: 28px !important;
+  padding: 2px 0 !important;
+}
+
+/* Espaçamento entre controles dentro de pastas */
+.tp-fldv_c > .tp-brkv {
+  margin-bottom: 3px !important;
+}
+
+/* Espaçamento entre pastas */
+.tp-fldv {
+  margin-bottom: 4px !important;
+}
+
+/* Títulos das pastas/seções - Ajustado */
+.tp-fldv_t,
+.tp-tabv_t {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  font-family: var(--font-mono) !important;
+  padding: 8px 10px !important;
+  letter-spacing: 0.3px !important;
+  line-height: 1.4 !important;
+  text-align: center;
+}
+
+/* Título principal do painel - Maior destaque */
+.tp-rotv_t {
+  font-size: 12px !important;
+  font-weight: 600 !important;
+  font-family: var(--font-mono) !important;
+  padding: 8px 10px !important;
+  letter-spacing: 0.3px !important;
+  line-height: 1.4 !important;
+  text-align: center;
+}
+
+/* Container de labels - Ajuste de padding */
+.tp-lblv {
+  padding: 0 8px !important;
+}
+
+/* Labels dos controles (lado esquerdo) - Texto legível */
+.tp-lblv_l {
+  font-size: 11.5px !important;
+  font-family: var(--font-mono) !important;
+  line-height: 1.4 !important;
+  padding: 4px 0 !important;
+  letter-spacing: 0.2px !important;
+}
+
+/* Valores e inputs (lado direito) */
+.tp-lblv_v {
+  font-size: 11.5px !important;
+  font-family: var(--font-mono) !important;
+  padding: 4px 0 !important;
+}
+
+.tp-txtv_i,
+.tp-sldv_t {
+  font-size: 11.5px !important;
+  font-family: var(--font-mono) !important;
+  font-weight: 500 !important;
+}
+
+/* Inputs de texto - Altura e padding balanceados */
+input.tp-txtv_i {
+  font-size: 11.5px !important;
+  height: 26px !important;
+  padding: 4px 8px !important;
+  line-height: 1.4 !important;
+}
+
+/* Dropdowns/Select - Tamanho consistente */
+.tp-lstv_s {
+  font-size: 11.5px !important;
+  font-family: var(--font-mono) !important;
+  height: 26px !important;
+  padding: 4px 8px !important;
+  line-height: 1.4 !important;
+}
+
+/* Opções do dropdown */
+.tp-lstv_m {
+  font-size: 11.5px !important;
+  font-family: var(--font-mono) !important;
+}
+
+.tp-lstv_i {
+  padding: 6px 8px !important;
+  line-height: 1.4 !important;
+}
+
+/* Sliders - Altura confortável */
+.tp-sldv {
+  height: 20px !important;
+  margin: 2px 0 !important;
+}
+
+/* Container de slider com texto */
+.tp-sldtxtv_s {
+  min-height: 26px !important;
+}
+
+/* Texto do slider (valor numérico) */
+.tp-sldtxtv_t {
+  padding: 0 4px !important;
+}
+
+/* Botões - Tamanho e espaçamento otimizados */
 .tp-dfwv .tp-btnv_b {
+  font-size: 12px !important;
+  padding: 8px 12px !important;
   background: rgba(255, 255, 255, 0.1) !important;
   border: 1px solid rgba(255, 255, 255, 0.2) !important;
   color: #ffffff !important;
   font-family: var(--font-mono) !important;
-  border-radius: 4px !important;
+  border-radius: 5px !important;
+  font-weight: 600 !important;
+  min-height: 32px !important;
+  letter-spacing: 0.3px !important;
+  transition: all 0.2s ease !important;
 }
 
 .tp-dfwv .tp-btnv_b:hover {
+  background: rgba(255, 255, 255, 0.15) !important;
+  border-color: rgba(255, 255, 255, 0.3) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Separadores - Espaçamento fino */
+.tp-sprv_r {
+  margin: 6px 0 !important;
+  opacity: 0.3 !important;
+}
+
+/* Monitores (valores display-only) */
+.tp-mllv_i {
+  font-size: 11.5px !important;
+  font-family: var(--font-mono) !important;
+  padding: 4px 8px !important;
+  line-height: 1.4 !important;
+}
+
+/* Checkboxes - Tamanho balanceado */
+.tp-ckbv_i {
+  width: 18px !important;
+  height: 18px !important;
+}
+
+/* Container de checkbox */
+.tp-ckbv_w {
+  padding: 2px 0 !important;
+}
+
+/* Números - Ajuste fino */
+.tp-txtv_k,
+.tp-sldv_t {
+  font-variant-numeric: tabular-nums !important;
+}
+
+/* Ícones de pastas - Tamanho consistente */
+.tp-fldv_b {
+  padding: 0 4px !important;
+}
+
+/* Cabeçalhos de abas */
+.tp-tabv_c {
+  padding: 0 !important;
+}
+
+.tp-tabv_i {
+  padding: 6px 10px !important;
+  font-size: 11px !important;
+  font-family: var(--font-mono) !important;
+}
+
+/* Containers internos - Padding consistente */
+.tp-rotv_c,
+.tp-fldv_c {
+  padding: 4px !important;
+}
+
+/* Ajuste de controles de cor (se houver) */
+.tp-colv_b {
+  height: 26px !important;
+}
+
+/* Controle de ponto (para gráficos) */
+.tp-p2dv {
+  height: 120px !important;
+}
+
+/* Smooth scroll para listas longas */
+.tp-lstv_m {
+  max-height: 200px !important;
+  overflow-y: auto !important;
+}
+
+/* Scrollbar customizada para dropdown */
+.tp-lstv_m::-webkit-scrollbar {
+  width: 6px !important;
+}
+
+.tp-lstv_m::-webkit-scrollbar-track {
+  background: rgba(255, 255, 255, 0.05) !important;
+  border-radius: 3px !important;
+}
+
+.tp-lstv_m::-webkit-scrollbar-thumb {
   background: rgba(255, 255, 255, 0.2) !important;
+  border-radius: 3px !important;
+}
+
+.tp-lstv_m::-webkit-scrollbar-thumb:hover {
+  background: rgba(255, 255, 255, 0.3) !important;
 }
 
 @media (max-width: 600px) {
