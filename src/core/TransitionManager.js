@@ -1,13 +1,8 @@
 // src/core/TransitionManager.js
 
-import gsap from "https://esm.sh/gsap";
+import gsap from "gsap";
 import { SLIDER_CONFIG } from "../config/slide.config";
 
-/**
- * TRANSITION MANAGER
- * Responsabilidade: Gerenciar transições entre slides usando GSAP
- * Princípio: Single Responsibility + Open/Closed (fácil estender)
- */
 export class TransitionManager {
   constructor(shaderManager) {
     this.shaderManager = shaderManager;
@@ -15,13 +10,6 @@ export class TransitionManager {
     this.currentAnimation = null;
   }
 
-  /**
-   * Executa transição entre dois slides
-   * @param {THREE.Texture} fromTexture - Textura atual
-   * @param {THREE.Texture} toTexture - Próxima textura
-   * @param {Function} onComplete - Callback ao completar
-   * @returns {Promise<void>}
-   */
   async transition(fromTexture, toTexture, onComplete) {
     if (this.isTransitioning) {
       console.warn("Transition already in progress");
@@ -51,10 +39,6 @@ export class TransitionManager {
     });
   }
 
-  /**
-   * Cancela transição atual se existir
-   * Princípio: Defensive Programming
-   */
   cancel() {
     if (this.currentAnimation) {
       this.currentAnimation.kill();
@@ -63,10 +47,6 @@ export class TransitionManager {
     this.isTransitioning = false;
   }
 
-  /**
-   * Callback interno quando transição completa
-   * Regra do Escoteiro: Reseta estado para próxima transição
-   */
   _onTransitionComplete(newTexture, callback) {
     // Reset progress
     this.shaderManager.progress.value = 0;
@@ -83,17 +63,10 @@ export class TransitionManager {
     }
   }
 
-  /**
-   * Obtém duração da transição das configurações
-   * Princípio: DRY - Única fonte de verdade
-   */
   _getTransitionDuration() {
     return SLIDER_CONFIG.settings.transitionDuration;
   }
 
-  /**
-   * Verifica se está em transição
-   */
   get inProgress() {
     return this.isTransitioning;
   }

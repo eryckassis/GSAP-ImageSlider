@@ -1,6 +1,6 @@
 // src/core/UIController.js
 
-import { Pane } from "https://cdn.skypack.dev/tweakpane@4.0.4";
+import { Pane } from "tweakpane";
 import { SLIDER_CONFIG } from "../config/slide.config";
 
 export class UIController {

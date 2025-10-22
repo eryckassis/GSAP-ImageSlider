@@ -1,4 +1,4 @@
-import * as THREE from "https://esm.sh/three";
+import * as THREE from "three";
 import { SLIDER_CONFIG, EFFECT_MAP } from "../config/slide.config";
 
 export class ShaderManager {

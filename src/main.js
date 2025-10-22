@@ -1,5 +1,5 @@
 import "./style.css";
-import * as THREE from "https://esm.sh/three";
+import * as THREE from "three";
 import { SLIDES_DATA } from "./config/slide.config.js";
 import { ShaderManager } from "./core/ShaderManager.js";
 import { SlideTextureLoader } from "./core/TextureLoader.js";
