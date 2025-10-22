@@ -2,11 +2,6 @@
 
 import { SLIDER_CONFIG, SLIDES_DATA } from "../config/slide.config";
 
-/**
- * NAVIGATION CONTROLLER
- * Responsabilidade: Gerenciar navegação, índices, progresso e eventos
- * Princípio: Single Responsibility
- */
 export class NavigationController {
   constructor(textureLoader, transitionManager) {
     this.textureLoader = textureLoader;
@@ -16,12 +11,10 @@ export class NavigationController {
     this.slides = SLIDES_DATA;
     this.enabled = false;
 
-    // Progress tracking
     this.progressTimer = null;
     this.autoSlideTimer = null;
     this.progressUpdateInterval = 50; // ms
 
-    // Touch support
     this.touchStartX = 0;
     this.touchEndX = 0;
     this.minSwipeDistance = 50;
@@ -29,9 +22,6 @@ export class NavigationController {
     this._setupEventListeners();
   }
 
-  /**
-   * Inicia o slider após texturas carregadas
-   */
   start() {
     if (!this.textureLoader.isLoaded) {
       console.warn("Textures not loaded yet");

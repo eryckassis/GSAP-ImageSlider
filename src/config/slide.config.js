@@ -200,7 +200,7 @@ export const EFFECT_MAP = {
 export const SLIDES_DATA = [
   {
     title: "Ethereal Glowing",
-    media: "https://assets.codepen.io/7558/orange-portrait-001.jpg",
+    media: "./public/imagem01.png",
   },
   {
     title: "Mirage Horizons",
@@ -212,11 +212,11 @@ export const SLIDES_DATA = [
   },
   {
     title: "Golden Hour",
-    media: "https://assets.codepen.io/7558/orange-portrait-004.jpg",
+    media: "./public/2.png",
   },
   {
     title: "Midnight Dreams",
-    media: "https://assets.codepen.io/7558/orange-portrait-005.jpg",
+    media: "./public/3.png",
   },
   {
     title: "Silver Light",

@@ -2,47 +2,29 @@
 
 import { SLIDER_CONFIG } from "../config/slide.config";
 
-/**
- * EFFECT RANDOMIZER
- * Responsabilidade: Criar combinações aleatórias de efeitos
- * Princípio: Single Responsibility
- */
 export class EffectRandomizer {
   constructor() {
     this.effectTypes = ["glass", "frost", "ripple", "plasma", "timeshift"];
   }
 
-  /**
-   * Randomiza efeito e todas as configurações
-   * @returns {string} - Nome do efeito randomizado
-   */
   randomize() {
     const randomEffect = this._getRandomEffect();
     SLIDER_CONFIG.settings.currentEffect = randomEffect;
 
-    // Randomiza configurações globais
     this._randomizeGlobalSettings();
 
-    // Randomiza configurações específicas do efeito
     this._randomizeEffectSettings(randomEffect);
 
-    // Marca como Custom
     SLIDER_CONFIG.settings.currentEffectPreset = "Custom";
 
     return randomEffect;
   }
 
-  /**
-   * Pega efeito aleatório
-   */
   _getRandomEffect() {
     const randomIndex = Math.floor(Math.random() * this.effectTypes.length);
     return this.effectTypes[randomIndex];
   }
 
-  /**
-   * Randomiza configurações globais
-   */
   _randomizeGlobalSettings() {
     SLIDER_CONFIG.settings.globalIntensity = this._randomRange(0.5, 2.0);
     SLIDER_CONFIG.settings.speedMultiplier = this._randomRange(0.5, 2.5);
@@ -50,9 +32,6 @@ export class EffectRandomizer {
     SLIDER_CONFIG.settings.colorEnhancement = this._randomRange(0.7, 1.8);
   }
 
-  /**
-   * Randomiza settings específicos de cada efeito
-   */
   _randomizeEffectSettings(effectName) {
     switch (effectName) {
       case "glass":
@@ -119,9 +98,6 @@ export class EffectRandomizer {
     SLIDER_CONFIG.settings.timeshiftTurbulence = this._randomRange(0.4, 2.5);
   }
 
-  /**
-   * Helper: gera número aleatório no range
-   */
   _randomRange(min, max) {
     return min + Math.random() * (max - min);
   }
