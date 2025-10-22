@@ -1,13 +1,6 @@
-// src/core/ShaderManager.js
-
 import * as THREE from "https://esm.sh/three";
 import { SLIDER_CONFIG, EFFECT_MAP } from "../config/slide.config";
 
-/**
- * SHADER MANAGER
- * Responsabilidade: Gerenciar shaders, materiais e uniformes
- * Princípio: Single Responsibility (SOLID)
- */
 export class ShaderManager {
   constructor() {
     this.material = null;
@@ -15,10 +8,6 @@ export class ShaderManager {
     this.fragmentShader = this._getFragmentShader();
   }
 
-  /**
-   * Cria o material shader com todos os uniformes necessários
-   * @returns {THREE.ShaderMaterial}
-   */
   createMaterial() {
     this.material = new THREE.ShaderMaterial({
       uniforms: this._createUniforms(),
@@ -28,11 +17,6 @@ export class ShaderManager {
     return this.material;
   }
 
-  /**
-   * Atualiza texturas do shader
-   * @param {THREE.Texture} texture1 - Textura atual
-   * @param {THREE.Texture} texture2 - Próxima textura
-   */
   updateTextures(texture1, texture2) {
     if (!this.material) return;
 
@@ -42,26 +26,17 @@ export class ShaderManager {
     this.material.uniforms.uTexture2Size.value = texture2.userData.size;
   }
 
-  /**
-   * Atualiza o tipo de efeito
-   * @param {string} effectName - Nome do efeito (glass, frost, etc)
-   */
   setEffectType(effectName) {
     if (!this.material) return;
     this.material.uniforms.uEffectType.value = EFFECT_MAP[effectName] || 0;
   }
 
-  /**
-   * Atualiza todos os uniformes baseado nas configurações
-   * Princípio: DRY - Única fonte de verdade
-   */
   updateUniforms() {
     if (!this.material) return;
 
     const { uniforms } = this.material;
     const { settings } = SLIDER_CONFIG;
 
-    // Global uniforms
     this._updateUniform(uniforms, "uGlobalIntensity", settings.globalIntensity);
     this._updateUniform(uniforms, "uSpeedMultiplier", settings.speedMultiplier);
     this._updateUniform(
@@ -94,7 +69,6 @@ export class ShaderManager {
     this._updateUniform(uniforms, "uGlassEdgeGlow", settings.glassEdgeGlow);
     this._updateUniform(uniforms, "uGlassLiquidFlow", settings.glassLiquidFlow);
 
-    // Frost
     this._updateUniform(uniforms, "uFrostIntensity", settings.frostIntensity);
     this._updateUniform(
       uniforms,
@@ -113,7 +87,6 @@ export class ShaderManager {
     );
     this._updateUniform(uniforms, "uFrostTexture", settings.frostTexture);
 
-    // Ripple
     this._updateUniform(uniforms, "uRippleFrequency", settings.rippleFrequency);
     this._updateUniform(uniforms, "uRippleAmplitude", settings.rippleAmplitude);
     this._updateUniform(uniforms, "uRippleWaveSpeed", settings.rippleWaveSpeed);
@@ -124,7 +97,6 @@ export class ShaderManager {
     );
     this._updateUniform(uniforms, "uRippleDecay", settings.rippleDecay);
 
-    // Plasma
     this._updateUniform(uniforms, "uPlasmaIntensity", settings.plasmaIntensity);
     this._updateUniform(uniforms, "uPlasmaSpeed", settings.plasmaSpeed);
     this._updateUniform(
@@ -143,7 +115,6 @@ export class ShaderManager {
       settings.plasmaTurbulence
     );
 
-    // Timeshift
     this._updateUniform(
       uniforms,
       "uTimeshiftDistortion",
@@ -163,35 +134,21 @@ export class ShaderManager {
     );
   }
 
-  /**
-   * Helper para atualizar uniform de forma segura
-   * Princípio: KISS - Keep It Simple, Stupid
-   */
   _updateUniform(uniforms, key, value) {
     if (uniforms[key]) {
       uniforms[key].value = value;
     }
   }
 
-  /**
-   * Atualiza resolução da tela
-   */
   updateResolution(width, height) {
     if (!this.material) return;
     this.material.uniforms.uResolution.value.set(width, height);
   }
 
-  /**
-   * Getter para progresso da transição
-   */
   get progress() {
     return this.material?.uniforms.uProgress || { value: 0 };
   }
 
-  /**
-   * Cria todos os uniformes necessários
-   * Princípio: Encapsulamento
-   */
   _createUniforms() {
     const { settings } = SLIDER_CONFIG;
 
@@ -206,41 +163,35 @@ export class ShaderManager {
       uTexture2Size: { value: new THREE.Vector2(1, 1) },
       uEffectType: { value: EFFECT_MAP[settings.currentEffect] },
 
-      // Global settings
       uGlobalIntensity: { value: settings.globalIntensity },
       uSpeedMultiplier: { value: settings.speedMultiplier },
       uDistortionStrength: { value: settings.distortionStrength },
       uColorEnhancement: { value: settings.colorEnhancement },
 
-      // Glass uniforms
       uGlassRefractionStrength: { value: settings.glassRefractionStrength },
       uGlassChromaticAberration: { value: settings.glassChromaticAberration },
       uGlassBubbleClarity: { value: settings.glassBubbleClarity },
       uGlassEdgeGlow: { value: settings.glassEdgeGlow },
       uGlassLiquidFlow: { value: settings.glassLiquidFlow },
 
-      // Frost uniforms
       uFrostIntensity: { value: settings.frostIntensity },
       uFrostCrystalSize: { value: settings.frostCrystalSize },
       uFrostIceCoverage: { value: settings.frostIceCoverage },
       uFrostTemperature: { value: settings.frostTemperature },
       uFrostTexture: { value: settings.frostTexture },
 
-      // Ripple uniforms
       uRippleFrequency: { value: settings.rippleFrequency },
       uRippleAmplitude: { value: settings.rippleAmplitude },
       uRippleWaveSpeed: { value: settings.rippleWaveSpeed },
       uRippleRippleCount: { value: settings.rippleRippleCount },
       uRippleDecay: { value: settings.rippleDecay },
 
-      // Plasma uniforms
       uPlasmaIntensity: { value: settings.plasmaIntensity },
       uPlasmaSpeed: { value: settings.plasmaSpeed },
       uPlasmaEnergyIntensity: { value: settings.plasmaEnergyIntensity },
       uPlasmaContrastBoost: { value: settings.plasmaContrastBoost },
       uPlasmaTurbulence: { value: settings.plasmaTurbulence },
 
-      // Timeshift uniforms
       uTimeshiftDistortion: { value: settings.timeshiftDistortion },
       uTimeshiftBlur: { value: settings.timeshiftBlur },
       uTimeshiftFlow: { value: settings.timeshiftFlow },

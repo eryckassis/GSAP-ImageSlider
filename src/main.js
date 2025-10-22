@@ -1,25 +1,13 @@
-// src/main.js
-
 import "./style.css";
 import * as THREE from "https://esm.sh/three";
-
-// Importa configurações
 import { SLIDES_DATA } from "./config/slide.config.js";
-
-// Importa classes core
 import { ShaderManager } from "./core/ShaderManager.js";
 import { SlideTextureLoader } from "./core/TextureLoader.js";
 import { TransitionManager } from "./core/TransitionManager.js";
 import { NavigationController } from "./core/NavigationController.js";
 import { UIController } from "./core/UIController.js";
-
-// Importa utilitários
 import { EffectRandomizer } from "./utils/Randomizer.js";
 
-/**
- * LOADING SCREEN
- * Mantido como está - funcionamento perfeito
- */
 class SliderLoadingManager {
   constructor() {
     this.overlay = null;
@@ -182,19 +170,12 @@ class SliderLoadingManager {
   }
 }
 
-/**
- * MAIN SLIDER APPLICATION
- * Princípio: Composition over Inheritance
- * Orquestra todos os módulos sem conhecer detalhes internos
- */
 class SliderApplication {
   constructor() {
-    // Managers
     this.renderer = null;
     this.scene = null;
     this.camera = null;
 
-    // Core modules
     this.shaderManager = null;
     this.textureLoader = null;
     this.transitionManager = null;
@@ -203,50 +184,34 @@ class SliderApplication {
     this.effectRandomizer = null;
   }
 
-  /**
-   * Inicializa aplicação
-   */
   async init() {
     console.log("🚀 Initializing Slider Application...");
 
-    // 1. Cria módulos na ordem correta
     this._createModules();
 
-    // 2. Setup Three.js
     await this._setupThreeJS();
 
-    // 3. Carrega texturas
     await this._loadTextures();
 
-    // 4. Inicializa UI
     this._setupUI();
 
-    // 5. Inicia slider
     this._start();
 
     console.log("✅ Slider Application Ready!");
   }
 
-  /**
-   * Cria instâncias dos módulos
-   * Princípio: Dependency Injection
-   */
   _createModules() {
-    // Core
     this.shaderManager = new ShaderManager();
     this.textureLoader = new SlideTextureLoader();
     this.effectRandomizer = new EffectRandomizer();
 
-    // Transition manager depende do shader
     this.transitionManager = new TransitionManager(this.shaderManager);
 
-    // Navigation depende de texture loader e transition manager
     this.navigationController = new NavigationController(
       this.textureLoader,
       this.transitionManager
     );
 
-    // UI depende de shader e callbacks
     this.uiController = new UIController(
       this.shaderManager,
       (effect) => this._onEffectChange(effect),
@@ -254,20 +219,15 @@ class SliderApplication {
     );
   }
 
-  /**
-   * Setup Three.js renderer e scene
-   */
   async _setupThreeJS() {
     const canvas = document.querySelector(".webgl-canvas");
     if (!canvas) {
       throw new Error("Canvas .webgl-canvas not found");
     }
 
-    // Scene e Camera
     this.scene = new THREE.Scene();
     this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
-    // Renderer
     this.renderer = new THREE.WebGLRenderer({
       canvas: canvas,
       antialias: false,
@@ -276,24 +236,17 @@ class SliderApplication {
     this.renderer.setSize(window.innerWidth, window.innerHeight);
     this.renderer.setPixelRatio(Math.min(window.devicePixelRatio, 2));
 
-    // Cria material shader
     const material = this.shaderManager.createMaterial();
 
-    // Cria mesh
     const geometry = new THREE.PlaneGeometry(2, 2);
     const mesh = new THREE.Mesh(geometry, material);
     this.scene.add(mesh);
 
-    // Setup resize handler
     window.addEventListener("resize", () => this._onResize());
 
-    // Inicia render loop
     this._startRenderLoop();
   }
 
-  /**
-   * Carrega texturas
-   */
   async _loadTextures() {
     console.log("📦 Loading textures...");
 
@@ -303,30 +256,19 @@ class SliderApplication {
       throw new Error("Not enough textures loaded");
     }
 
-    // Define texturas iniciais no shader
     this.shaderManager.updateTextures(textures[0], textures[1]);
 
     console.log(`✅ Loaded ${textures.length} textures`);
   }
 
-  /**
-   * Setup UI
-   */
   _setupUI() {
-    // Cria navegação
     this.navigationController.createNavigationUI();
   }
 
-  /**
-   * Inicia slider
-   */
   _start() {
     this.navigationController.start();
   }
 
-  /**
-   * Render loop
-   */
   _startRenderLoop() {
     const render = () => {
       requestAnimationFrame(render);
@@ -335,16 +277,10 @@ class SliderApplication {
     render();
   }
 
-  /**
-   * Handler: mudança de efeito
-   */
   _onEffectChange(effectName) {
     console.log(`🎨 Effect changed to: ${effectName}`);
   }
 
-  /**
-   * Handler: randomize
-   */
   _onRandomize() {
     const effect = this.effectRandomizer.randomize();
     this.shaderManager.setEffectType(effect);
@@ -353,9 +289,6 @@ class SliderApplication {
     console.log(`🎲 Randomized to: ${effect}`);
   }
 
-  /**
-   * Handler: resize
-   */
   _onResize() {
     const width = window.innerWidth;
     const height = window.innerHeight;
@@ -364,9 +297,6 @@ class SliderApplication {
     this.shaderManager.updateResolution(width, height);
   }
 
-  /**
-   * Limpa recursos
-   */
   dispose() {
     this.navigationController.dispose();
     this.uiController.dispose();
@@ -378,18 +308,11 @@ class SliderApplication {
   }
 }
 
-/**
- * BOOTSTRAP
- * Ponto de entrada da aplicação
- */
 document.addEventListener("DOMContentLoaded", async function () {
-  // Inicia loading screen
   const loadingManager = new SliderLoadingManager();
 
-  // Aguarda um pouco para loading screen aparecer
   await new Promise((resolve) => setTimeout(resolve, 500));
 
-  // Inicializa aplicação principal
   const app = new SliderApplication();
 
   try {

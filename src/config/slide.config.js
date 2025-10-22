@@ -1,10 +1,3 @@
-// src/config/slider.config.js
-
-/**
- * SLIDER CONFIGURATION
- * Single source of truth for all slider settings
- * Princípio: DRY - Don't Repeat Yourself
- */
 export const SLIDER_CONFIG = {
   settings: {
     transitionDuration: 2.5,
