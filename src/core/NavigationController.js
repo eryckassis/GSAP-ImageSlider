@@ -13,7 +13,7 @@ export class NavigationController {
 
     this.progressTimer = null;
     this.autoSlideTimer = null;
-    this.progressUpdateInterval = 50; // ms
+    this.progressUpdateInterval = 50;
 
     this.touchStartX = 0;
     this.touchEndX = 0;
@@ -33,18 +33,11 @@ export class NavigationController {
     this._startAutoSlide();
   }
 
-  /**
-   * Para o slider
-   */
   stop() {
     this.enabled = false;
     this._stopAllTimers();
   }
 
-  /**
-   * Navega para um slide específico
-   * @param {number} targetIndex - Índice do slide destino
-   */
   async navigateTo(targetIndex) {
     // Validações
     if (!this.enabled) return;
@@ -77,27 +70,17 @@ export class NavigationController {
     );
   }
 
-  /**
-   * Próximo slide
-   */
   next() {
     const nextIndex = (this.currentIndex + 1) % this.slides.length;
     this.navigateTo(nextIndex);
   }
 
-  /**
-   * Slide anterior
-   */
   previous() {
     const prevIndex =
       (this.currentIndex - 1 + this.slides.length) % this.slides.length;
     this.navigateTo(prevIndex);
   }
 
-  /**
-   * Inicia auto-slide com delay opcional
-   * @param {number} delay - Delay em ms antes de iniciar
-   */
   _startAutoSlide(delay = 0) {
     if (!this.enabled) return;
 
@@ -136,9 +119,6 @@ export class NavigationController {
     }
   }
 
-  /**
-   * Para todos os timers
-   */
   _stopAllTimers() {
     this._stopProgressTimer();
 
@@ -148,9 +128,6 @@ export class NavigationController {
     }
   }
 
-  /**
-   * Para apenas o timer de progresso
-   */
   _stopProgressTimer() {
     if (this.progressTimer) {
       clearInterval(this.progressTimer);
@@ -158,18 +135,11 @@ export class NavigationController {
     }
   }
 
-  /**
-   * Atualiza UI (navegação e contador)
-   * Princípio: Tell, Don't Ask
-   */
   _updateUI() {
     this._updateNavigationState(this.currentIndex);
     this._updateCounter(this.currentIndex);
   }
 
-  /**
-   * Atualiza estado visual da navegação
-   */
   _updateNavigationState(activeIndex) {
     const navItems = document.querySelectorAll(".slide-nav-item");
     navItems.forEach((item, index) => {
@@ -177,9 +147,6 @@ export class NavigationController {
     });
   }
 
-  /**
-   * Atualiza contador de slides
-   */
   _updateCounter(index) {
     const slideNumber = document.getElementById("slideNumber");
     const slideTotal = document.getElementById("slideTotal");
@@ -192,9 +159,6 @@ export class NavigationController {
     }
   }
 
-  /**
-   * Atualiza barra de progresso visual
-   */
   _updateSlideProgress(slideIndex, progress) {
     const navItems = document.querySelectorAll(".slide-nav-item");
     if (navItems[slideIndex]) {
@@ -208,9 +172,6 @@ export class NavigationController {
     }
   }
 
-  /**
-   * Fade out do progresso
-   */
   _fadeSlideProgress(slideIndex) {
     const navItems = document.querySelectorAll(".slide-nav-item");
     if (navItems[slideIndex]) {
@@ -224,9 +185,6 @@ export class NavigationController {
     }
   }
 
-  /**
-   * Reset rápido do progresso
-   */
   _quickResetProgress(slideIndex) {
     const navItems = document.querySelectorAll(".slide-nav-item");
     if (navItems[slideIndex]) {
@@ -243,9 +201,6 @@ export class NavigationController {
     }
   }
 
-  /**
-   * Cria elementos de navegação no DOM
-   */
   createNavigationUI() {
     const navContainer = document.getElementById("slidesNav");
     if (!navContainer) return;
@@ -274,10 +229,6 @@ export class NavigationController {
     });
   }
 
-  /**
-   * Setup de event listeners
-   * Princípio: Separation of Concerns
-   */
   _setupEventListeners() {
     // Clique geral (próximo slide)
     document.addEventListener("click", (e) => {
@@ -347,9 +298,6 @@ export class NavigationController {
     }
   }
 
-  /**
-   * Limpa recursos
-   */
   dispose() {
     this._stopAllTimers();
     this.enabled = false;
