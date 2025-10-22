@@ -3,11 +3,6 @@
 import { Pane } from "https://cdn.skypack.dev/tweakpane@4.0.4";
 import { SLIDER_CONFIG } from "../config/slide.config";
 
-/**
- * UI CONTROLLER
- * Responsabilidade: Gerenciar Tweakpane e controles de interface
- * Princípio: Single Responsibility + Interface Segregation
- */
 export class UIController {
   constructor(shaderManager, onEffectChange, onRandomize) {
     this.shaderManager = shaderManager;
@@ -21,9 +16,6 @@ export class UIController {
     this._createPane();
   }
 
-  /**
-   * Cria e configura o Tweakpane
-   */
   _createPane() {
     this.pane = new Pane({
       title: "Controle de Efeitos",
@@ -38,30 +30,27 @@ export class UIController {
     this._hide(); // Esconde inicialmente
   }
 
-  /**
-   * Cria folder de configurações gerais
-   */
   _createGeneralSettings() {
     const folder = this.pane.addFolder({
-      title: "General Settings",
+      title: "Config Geral",
     });
 
     folder.addBinding(SLIDER_CONFIG.settings, "globalIntensity", {
-      label: "Global Intensity",
+      label: "Intesidade Global",
       min: 0.1,
       max: 2.0,
       step: 0.1,
     });
 
     folder.addBinding(SLIDER_CONFIG.settings, "speedMultiplier", {
-      label: "Speed Multiplier",
+      label: "Velocidade",
       min: 0.1,
       max: 3.0,
       step: 0.1,
     });
 
     folder.addBinding(SLIDER_CONFIG.settings, "distortionStrength", {
-      label: "Distortion",
+      label: "Distorção",
       min: 0.1,
       max: 3.0,
       step: 0.1,
@@ -75,16 +64,13 @@ export class UIController {
     });
   }
 
-  /**
-   * Cria folder de timing
-   */
   _createTimingSettings() {
     const folder = this.pane.addFolder({
       title: "Timing",
     });
 
     folder.addBinding(SLIDER_CONFIG.settings, "transitionDuration", {
-      label: "Transition Duration",
+      label: "Transition Duração",
       min: 0.5,
       max: 5.0,
       step: 0.1,
@@ -98,12 +84,9 @@ export class UIController {
     });
   }
 
-  /**
-   * Cria seleção de efeitos
-   */
   _createEffectSelection() {
     const folder = this.pane.addFolder({
-      title: "Effect Selection",
+      title: "Selecionar Efeito",
     });
 
     folder.addBinding(SLIDER_CONFIG.settings, "currentEffect", {
@@ -120,7 +103,7 @@ export class UIController {
     // Botão randomize
     folder
       .addButton({
-        title: "Randomize Effect",
+        title: "Efeito Random",
       })
       .on("click", () => {
         if (this.onRandomize) {
@@ -129,12 +112,9 @@ export class UIController {
       });
   }
 
-  /**
-   * Cria seleção de presets
-   */
   _createPresetSelection() {
     this.presetsFolder = this.pane.addFolder({
-      title: "Effect Presets",
+      title: "Presets Efeito",
     });
 
     this.presetBinding = this.presetsFolder.addBinding(
@@ -147,9 +127,6 @@ export class UIController {
     );
   }
 
-  /**
-   * Cria folders para cada efeito
-   */
   _createEffectSettings() {
     this._createGlassSettings();
     this._createFrostSettings();
@@ -168,7 +145,7 @@ export class UIController {
     const folder = this.pane.addFolder({ title: "Glass Settings" });
 
     folder.addBinding(SLIDER_CONFIG.settings, "glassRefractionStrength", {
-      label: "Refraction Strength",
+      label: "Refração Força",
       min: 0.1,
       max: 3.0,
       step: 0.1,
@@ -396,7 +373,7 @@ export class UIController {
       }
     });
 
-    // Tecla 'H' para toggle
+    // Tecla 'H'
     document.addEventListener("keydown", (e) => {
       if (e.code === "KeyH") {
         e.preventDefault();
@@ -405,9 +382,6 @@ export class UIController {
     });
   }
 
-  /**
-   * Gerencia mudança de efeito
-   */
   _handleEffectChange(newEffect) {
     // Atualiza shader
     this.shaderManager.setEffectType(newEffect);
@@ -430,9 +404,6 @@ export class UIController {
     this.pane.refresh();
   }
 
-  /**
-   * Atualiza visibilidade dos folders de efeitos
-   */
   _updateEffectFolderVisibility(currentEffect) {
     Object.keys(this.effectFolders).forEach((effectName) => {
       if (this.effectFolders[effectName]) {
@@ -441,9 +412,6 @@ export class UIController {
     });
   }
 
-  /**
-   * Atualiza opções de preset
-   */
   _updatePresetOptions(effectName) {
     // Remove binding antigo
     if (this.presetBinding) {
@@ -461,9 +429,6 @@ export class UIController {
     );
   }
 
-  /**
-   * Obtém opções de preset para um efeito
-   */
   _getPresetOptions(effectName) {
     const presets = SLIDER_CONFIG.effectPresets[effectName];
     if (!presets) return { Custom: "Custom" };
@@ -477,9 +442,6 @@ export class UIController {
     return options;
   }
 
-  /**
-   * Aplica preset
-   */
   _applyPreset(effectName, presetName) {
     const presets = SLIDER_CONFIG.effectPresets[effectName];
     if (!presets || !presets[presetName]) return;
@@ -499,9 +461,6 @@ export class UIController {
     }, 100);
   }
 
-  /**
-   * Mostra painel
-   */
   show() {
     const paneElement = document.querySelector(".tp-dfwv");
     if (paneElement) {
@@ -509,9 +468,6 @@ export class UIController {
     }
   }
 
-  /**
-   * Esconde painel
-   */
   _hide() {
     const paneElement = document.querySelector(".tp-dfwv");
     if (paneElement) {
@@ -519,9 +475,6 @@ export class UIController {
     }
   }
 
-  /**
-   * Toggle visibilidade
-   */
   toggle() {
     const paneElement = document.querySelector(".tp-dfwv");
     if (paneElement) {
@@ -530,16 +483,10 @@ export class UIController {
     }
   }
 
-  /**
-   * Atualiza display
-   */
   refresh() {
     this.pane.refresh();
   }
 
-  /**
-   * Limpa recursos
-   */
   dispose() {
     if (this.pane) {
       this.pane.dispose();
