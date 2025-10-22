@@ -219,4 +219,36 @@ GSAP-ImageSlider/
 
 ## Licença
 
-Uso educacional e demonstrativo. Ajuste conforme a política do seu repositório.
+Este projeto é licenciado sob a Licença MIT. A escolha visa maximizar a adoção e a colaboração, permitindo uso comercial, modificação, distribuição e uso privado, com baixa fricção e cláusulas claras de isenção de responsabilidade.
+
+Conteúdo da licença (MIT):
+
+```text
+MIT License
+
+Copyright (c) 2025 eryckassis
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND, EXPRESS OR
+IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,
+FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE
+AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER
+LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
+OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE
+SOFTWARE.
+```
+
+### Licenças de terceiros
+
+- [three](https://github.com/mrdoob/three.js/blob/dev/LICENSE) — MIT License
+- [tweakpane](https://github.com/cocopon/tweakpane/blob/main/LICENSE) — MIT License
+- [GSAP](https://greensock.com/standard-license/) — Standard License (o uso de plugins Club requer licença separada)
