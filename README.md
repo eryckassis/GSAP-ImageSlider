@@ -201,7 +201,7 @@ GSAP-ImageSlider/
 
 <!-- Espaço reservado para vídeo -->
 <div align="center" style="border:1px solid #d0d7de; width:100%; max-width:960px; height:540px; display:flex; align-items:center; justify-content:center; background:#f6f8fa; margin: 12px 0;">
-  <strong>Vídeo do projeto (placeholder)</strong>
+  <strong>Site Para testar meu projeto (https://gsap-image-slider-mu1f-eryck-assis-projects.vercel.app/)</strong>
 </div>
 
 ---
