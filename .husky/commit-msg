@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+# Husky Commit-Msg Hook
+# 🎯 Analogia: O "Editor de Texto" que verifica a mensagem do commit
+# Executa DEPOIS que você escreve a mensagem, mas ANTES do commit ser criado
+
+# Valida a mensagem de commit com commitlint
+npx --no -- commitlint --edit $1

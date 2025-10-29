@@ -2,8 +2,8 @@ export const SLIDER_CONFIG = {
   settings: {
     transitionDuration: 2.5,
     autoSlideSpeed: 5000,
-    currentEffect: "glass",
-    currentEffectPreset: "Default",
+    currentEffect: 'glass',
+    currentEffectPreset: 'Default',
     globalIntensity: 1.0,
     speedMultiplier: 1.0,
     distortionStrength: 1.0,
@@ -199,27 +199,27 @@ export const EFFECT_MAP = {
 
 export const SLIDES_DATA = [
   {
-    title: "Ethereal Glowing",
-    media: "https://assets.codepen.io/7558/orange-portrait-001.jpg",
+    title: 'Ethereal Glowing',
+    media: 'https://assets.codepen.io/7558/orange-portrait-001.jpg',
   },
   {
-    title: "Mirage Horizons",
-    media: "https://assets.codepen.io/7558/orange-portrait-002.jpg",
+    title: 'Mirage Horizons',
+    media: 'https://assets.codepen.io/7558/orange-portrait-002.jpg',
   },
   {
-    title: "Velvet Mystique#",
-    media: "https://assets.codepen.io/7558/orange-portrait-003.jpg",
+    title: 'Velvet Mystique#',
+    media: 'https://assets.codepen.io/7558/orange-portrait-003.jpg',
   },
   {
-    title: "Golden Hour",
-    media: "https://assets.codepen.io/7558/orange-portrait-004.jpg",
+    title: 'Golden Hour',
+    media: 'https://assets.codepen.io/7558/orange-portrait-004.jpg',
   },
   {
-    title: "Midnight Dreams",
-    media: "https://assets.codepen.io/7558/orange-portrait-005.jpg",
+    title: 'Midnight Dreams',
+    media: 'https://assets.codepen.io/7558/orange-portrait-005.jpg',
   },
   {
-    title: "Silver Light",
-    media: "https://assets.codepen.io/7558/orange-portrait-006.jpg",
+    title: 'Silver Light',
+    media: 'https://assets.codepen.io/7558/orange-portrait-006.jpg',
   },
 ];

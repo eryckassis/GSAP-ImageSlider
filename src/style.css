@@ -1,17 +1,16 @@
-@import url("https://fonts.cdnfonts.com/css/pp-neue-montreal");
+@import url('https://fonts.cdnfonts.com/css/pp-neue-montreal');
 
 @font-face {
-  font-family: "PPSupplyMono";
-  src: url("https://assets.codepen.io/7558/PPSupplyMono-Regular.ttf")
-    format("truetype");
+  font-family: 'PPSupplyMono';
+  src: url('https://assets.codepen.io/7558/PPSupplyMono-Regular.ttf') format('truetype');
   font-weight: normal;
   font-style: normal;
   font-display: swap;
 }
 
 :root {
-  --font-mono: "PPSupplyMono", monospace;
-  --font-sans: "PP Neue Montreal", sans-serif;
+  --font-mono: 'PPSupplyMono', monospace;
+  --font-sans: 'PP Neue Montreal', sans-serif;
   --color-bg: #000;
   --color-text: #fff;
   --color-text-muted: rgba(255, 255, 255, 0.8);
@@ -113,7 +112,9 @@ body {
   height: 100%;
   width: 0%;
   background: var(--color-accent);
-  transition: width 0.1s ease, opacity 0.3s ease;
+  transition:
+    width 0.1s ease,
+    opacity 0.3s ease;
   border-radius: 2px;
 }
 

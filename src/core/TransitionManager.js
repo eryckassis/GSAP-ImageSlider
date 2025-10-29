@@ -1,7 +1,7 @@
 // src/core/TransitionManager.js
 
-import gsap from "gsap";
-import { SLIDER_CONFIG } from "../config/slide.config";
+import gsap from 'gsap';
+import { SLIDER_CONFIG } from '../config/slide.config';
 
 export class TransitionManager {
   constructor(shaderManager) {
@@ -12,7 +12,7 @@ export class TransitionManager {
 
   async transition(fromTexture, toTexture, onComplete) {
     if (this.isTransitioning) {
-      console.warn("Transition already in progress");
+      console.warn('Transition already in progress');
       return;
     }
 
@@ -29,7 +29,7 @@ export class TransitionManager {
         {
           value: 1,
           duration: this._getTransitionDuration(),
-          ease: "power2.inOut",
+          ease: 'power2.inOut',
           onComplete: () => {
             this._onTransitionComplete(toTexture, onComplete);
             resolve();
@@ -58,7 +58,7 @@ export class TransitionManager {
     this.currentAnimation = null;
 
     // Executa callback externo
-    if (typeof callback === "function") {
+    if (typeof callback === 'function') {
       callback();
     }
   }

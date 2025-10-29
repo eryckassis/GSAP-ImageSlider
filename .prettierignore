@@ -1,0 +1,14 @@
+# Ignore build outputs
+dist
+node_modules
+coverage
+playwright-report
+test-results
+
+# Ignore config files
+package-lock.json
+*.min.js
+*.bundle.js
+
+# Ignore markdown (para não quebrar o ROADMAP)
+*.md

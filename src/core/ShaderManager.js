@@ -1,5 +1,5 @@
-import * as THREE from "three";
-import { SLIDER_CONFIG, EFFECT_MAP } from "../config/slide.config";
+import * as THREE from 'three';
+import { SLIDER_CONFIG, EFFECT_MAP } from '../config/slide.config';
 
 export class ShaderManager {
   constructor() {
@@ -18,7 +18,9 @@ export class ShaderManager {
   }
 
   updateTextures(texture1, texture2) {
-    if (!this.material) return;
+    if (!this.material) {
+      return;
+    }
 
     this.material.uniforms.uTexture1.value = texture1;
     this.material.uniforms.uTexture2.value = texture2;
@@ -27,111 +29,55 @@ export class ShaderManager {
   }
 
   setEffectType(effectName) {
-    if (!this.material) return;
+    if (!this.material) {
+      return;
+    }
     this.material.uniforms.uEffectType.value = EFFECT_MAP[effectName] || 0;
   }
 
   updateUniforms() {
-    if (!this.material) return;
+    if (!this.material) {
+      return;
+    }
 
     const { uniforms } = this.material;
     const { settings } = SLIDER_CONFIG;
 
-    this._updateUniform(uniforms, "uGlobalIntensity", settings.globalIntensity);
-    this._updateUniform(uniforms, "uSpeedMultiplier", settings.speedMultiplier);
-    this._updateUniform(
-      uniforms,
-      "uDistortionStrength",
-      settings.distortionStrength
-    );
-    this._updateUniform(
-      uniforms,
-      "uColorEnhancement",
-      settings.colorEnhancement
-    );
+    this._updateUniform(uniforms, 'uGlobalIntensity', settings.globalIntensity);
+    this._updateUniform(uniforms, 'uSpeedMultiplier', settings.speedMultiplier);
+    this._updateUniform(uniforms, 'uDistortionStrength', settings.distortionStrength);
+    this._updateUniform(uniforms, 'uColorEnhancement', settings.colorEnhancement);
 
     // Effect-specific uniforms (Glass)
-    this._updateUniform(
-      uniforms,
-      "uGlassRefractionStrength",
-      settings.glassRefractionStrength
-    );
-    this._updateUniform(
-      uniforms,
-      "uGlassChromaticAberration",
-      settings.glassChromaticAberration
-    );
-    this._updateUniform(
-      uniforms,
-      "uGlassBubbleClarity",
-      settings.glassBubbleClarity
-    );
-    this._updateUniform(uniforms, "uGlassEdgeGlow", settings.glassEdgeGlow);
-    this._updateUniform(uniforms, "uGlassLiquidFlow", settings.glassLiquidFlow);
+    this._updateUniform(uniforms, 'uGlassRefractionStrength', settings.glassRefractionStrength);
+    this._updateUniform(uniforms, 'uGlassChromaticAberration', settings.glassChromaticAberration);
+    this._updateUniform(uniforms, 'uGlassBubbleClarity', settings.glassBubbleClarity);
+    this._updateUniform(uniforms, 'uGlassEdgeGlow', settings.glassEdgeGlow);
+    this._updateUniform(uniforms, 'uGlassLiquidFlow', settings.glassLiquidFlow);
 
-    this._updateUniform(uniforms, "uFrostIntensity", settings.frostIntensity);
-    this._updateUniform(
-      uniforms,
-      "uFrostCrystalSize",
-      settings.frostCrystalSize
-    );
-    this._updateUniform(
-      uniforms,
-      "uFrostIceCoverage",
-      settings.frostIceCoverage
-    );
-    this._updateUniform(
-      uniforms,
-      "uFrostTemperature",
-      settings.frostTemperature
-    );
-    this._updateUniform(uniforms, "uFrostTexture", settings.frostTexture);
+    this._updateUniform(uniforms, 'uFrostIntensity', settings.frostIntensity);
+    this._updateUniform(uniforms, 'uFrostCrystalSize', settings.frostCrystalSize);
+    this._updateUniform(uniforms, 'uFrostIceCoverage', settings.frostIceCoverage);
+    this._updateUniform(uniforms, 'uFrostTemperature', settings.frostTemperature);
+    this._updateUniform(uniforms, 'uFrostTexture', settings.frostTexture);
 
-    this._updateUniform(uniforms, "uRippleFrequency", settings.rippleFrequency);
-    this._updateUniform(uniforms, "uRippleAmplitude", settings.rippleAmplitude);
-    this._updateUniform(uniforms, "uRippleWaveSpeed", settings.rippleWaveSpeed);
-    this._updateUniform(
-      uniforms,
-      "uRippleRippleCount",
-      settings.rippleRippleCount
-    );
-    this._updateUniform(uniforms, "uRippleDecay", settings.rippleDecay);
+    this._updateUniform(uniforms, 'uRippleFrequency', settings.rippleFrequency);
+    this._updateUniform(uniforms, 'uRippleAmplitude', settings.rippleAmplitude);
+    this._updateUniform(uniforms, 'uRippleWaveSpeed', settings.rippleWaveSpeed);
+    this._updateUniform(uniforms, 'uRippleRippleCount', settings.rippleRippleCount);
+    this._updateUniform(uniforms, 'uRippleDecay', settings.rippleDecay);
 
-    this._updateUniform(uniforms, "uPlasmaIntensity", settings.plasmaIntensity);
-    this._updateUniform(uniforms, "uPlasmaSpeed", settings.plasmaSpeed);
-    this._updateUniform(
-      uniforms,
-      "uPlasmaEnergyIntensity",
-      settings.plasmaEnergyIntensity
-    );
-    this._updateUniform(
-      uniforms,
-      "uPlasmaContrastBoost",
-      settings.plasmaContrastBoost
-    );
-    this._updateUniform(
-      uniforms,
-      "uPlasmaTurbulence",
-      settings.plasmaTurbulence
-    );
+    this._updateUniform(uniforms, 'uPlasmaIntensity', settings.plasmaIntensity);
+    this._updateUniform(uniforms, 'uPlasmaSpeed', settings.plasmaSpeed);
+    this._updateUniform(uniforms, 'uPlasmaEnergyIntensity', settings.plasmaEnergyIntensity);
+    this._updateUniform(uniforms, 'uPlasmaContrastBoost', settings.plasmaContrastBoost);
+    this._updateUniform(uniforms, 'uPlasmaTurbulence', settings.plasmaTurbulence);
 
-    this._updateUniform(
-      uniforms,
-      "uTimeshiftDistortion",
-      settings.timeshiftDistortion
-    );
-    this._updateUniform(uniforms, "uTimeshiftBlur", settings.timeshiftBlur);
-    this._updateUniform(uniforms, "uTimeshiftFlow", settings.timeshiftFlow);
-    this._updateUniform(
-      uniforms,
-      "uTimeshiftChromatic",
-      settings.timeshiftChromatic
-    );
-    this._updateUniform(
-      uniforms,
-      "uTimeshiftTurbulence",
-      settings.timeshiftTurbulence
-    );
+    this._updateUniform(uniforms, 'uTimeshiftDistortion', settings.timeshiftDistortion);
+    this._updateUniform(uniforms, 'uTimeshiftBlur', settings.timeshiftBlur);
+    this._updateUniform(uniforms, 'uTimeshiftFlow', settings.timeshiftFlow);
+    this._updateUniform(uniforms, 'uTimeshiftChromatic', settings.timeshiftChromatic);
+    this._updateUniform(uniforms, 'uTimeshiftTurbulence', settings.timeshiftTurbulence);
   }
 
   _updateUniform(uniforms, key, value) {
@@ -141,7 +87,9 @@ export class ShaderManager {
   }
 
   updateResolution(width, height) {
-    if (!this.material) return;
+    if (!this.material) {
+      return;
+    }
     this.material.uniforms.uResolution.value.set(width, height);
   }
 

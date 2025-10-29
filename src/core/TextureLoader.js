@@ -1,6 +1,6 @@
 // src/core/TextureLoader.js
 
-import * as THREE from "three";
+import * as THREE from 'three';
 
 export class SlideTextureLoader {
   constructor() {
@@ -66,7 +66,9 @@ export class SlideTextureLoader {
 
   dispose() {
     this.textures.forEach((texture) => {
-      if (texture) texture.dispose();
+      if (texture) {
+        texture.dispose();
+      }
     });
     this.textures = [];
   }

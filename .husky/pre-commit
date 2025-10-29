@@ -1,0 +1,7 @@
+#!/usr/bin/env sh
+# Husky Pre-Commit Hook
+# 🎯 Analogia: O "Porteiro" que não deixa código ruim entrar
+# Executa ANTES do commit ser criado
+
+# Roda lint-staged (que roda ESLint + Prettier nos arquivos alterados)
+npx lint-staged

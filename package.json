@@ -7,10 +7,24 @@
     "dev": "vite",
     "build": "vite build",
     "preview": "vite preview",
-    "setup": "node src/setup-structure.js"
+    "setup": "node src/setup-structure.js",
+    "lint": "eslint .",
+    "lint:fix": "eslint . --fix",
+    "format": "prettier --write \"**/*.{js,json,css}\"",
+    "format:check": "prettier --check \"**/*.{js,json,css}\"",
+    "prepare": "husky"
   },
   "devDependencies": {
+    "@commitlint/cli": "^19.8.1",
+    "@commitlint/config-conventional": "^19.8.1",
+    "@eslint/js": "^9.38.0",
+    "eslint": "^9.38.0",
+    "eslint-config-prettier": "^9.1.2",
     "fs-extra": "^11.3.2",
+    "globals": "^16.4.0",
+    "husky": "^9.1.7",
+    "lint-staged": "^15.5.2",
+    "prettier": "^3.6.2",
     "vite": "^7.1.7"
   },
   "dependencies": {

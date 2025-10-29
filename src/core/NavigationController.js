@@ -1,6 +1,6 @@
 // src/core/NavigationController.js
 
-import { SLIDER_CONFIG, SLIDES_DATA } from "../config/slide.config";
+import { SLIDER_CONFIG, SLIDES_DATA } from '../config/slide.config';
 
 export class NavigationController {
   constructor(textureLoader, transitionManager) {
@@ -24,7 +24,7 @@ export class NavigationController {
 
   start() {
     if (!this.textureLoader.isLoaded) {
-      console.warn("Textures not loaded yet");
+      console.warn('Textures not loaded yet');
       return;
     }
 
@@ -40,10 +40,18 @@ export class NavigationController {
 
   async navigateTo(targetIndex) {
     // Validações
-    if (!this.enabled) return;
-    if (this.transitionManager.inProgress) return;
-    if (targetIndex === this.currentIndex) return;
-    if (targetIndex < 0 || targetIndex >= this.slides.length) return;
+    if (!this.enabled) {
+      return;
+    }
+    if (this.transitionManager.inProgress) {
+      return;
+    }
+    if (targetIndex === this.currentIndex) {
+      return;
+    }
+    if (targetIndex < 0 || targetIndex >= this.slides.length) {
+      return;
+    }
 
     // Para timers
     this._stopAllTimers();
@@ -53,21 +61,19 @@ export class NavigationController {
     const currentTexture = this.textureLoader.getTexture(this.currentIndex);
     const targetTexture = this.textureLoader.getTexture(targetIndex);
 
-    if (!currentTexture || !targetTexture) return;
+    if (!currentTexture || !targetTexture) {
+      return;
+    }
 
     // Atualiza índice ANTES da transição
     this.currentIndex = targetIndex;
     this._updateUI();
 
     // Executa transição
-    await this.transitionManager.transition(
-      currentTexture,
-      targetTexture,
-      () => {
-        // Callback: Reinicia auto-slide após transição
-        this._startAutoSlide(100);
-      }
-    );
+    await this.transitionManager.transition(currentTexture, targetTexture, () => {
+      // Callback: Reinicia auto-slide após transição
+      this._startAutoSlide(100);
+    });
   }
 
   next() {
@@ -76,13 +82,14 @@ export class NavigationController {
   }
 
   previous() {
-    const prevIndex =
-      (this.currentIndex - 1 + this.slides.length) % this.slides.length;
+    const prevIndex = (this.currentIndex - 1 + this.slides.length) % this.slides.length;
     this.navigateTo(prevIndex);
   }
 
   _startAutoSlide(delay = 0) {
-    if (!this.enabled) return;
+    if (!this.enabled) {
+      return;
+    }
 
     this._stopAllTimers();
 
@@ -141,75 +148,71 @@ export class NavigationController {
   }
 
   _updateNavigationState(activeIndex) {
-    const navItems = document.querySelectorAll(".slide-nav-item");
+    const navItems = document.querySelectorAll('.slide-nav-item');
     navItems.forEach((item, index) => {
-      item.classList.toggle("active", index === activeIndex);
+      item.classList.toggle('active', index === activeIndex);
     });
   }
 
   _updateCounter(index) {
-    const slideNumber = document.getElementById("slideNumber");
-    const slideTotal = document.getElementById("slideTotal");
+    const slideNumber = document.getElementById('slideNumber');
+    const slideTotal = document.getElementById('slideTotal');
 
     if (slideNumber) {
-      slideNumber.textContent = String(index + 1).padStart(2, "0");
+      slideNumber.textContent = String(index + 1).padStart(2, '0');
     }
     if (slideTotal) {
-      slideTotal.textContent = String(this.slides.length).padStart(2, "0");
+      slideTotal.textContent = String(this.slides.length).padStart(2, '0');
     }
   }
 
   _updateSlideProgress(slideIndex, progress) {
-    const navItems = document.querySelectorAll(".slide-nav-item");
+    const navItems = document.querySelectorAll('.slide-nav-item');
     if (navItems[slideIndex]) {
-      const progressFill = navItems[slideIndex].querySelector(
-        ".slide-progress-fill"
-      );
+      const progressFill = navItems[slideIndex].querySelector('.slide-progress-fill');
       if (progressFill) {
         progressFill.style.width = `${progress}%`;
-        progressFill.style.opacity = "1";
+        progressFill.style.opacity = '1';
       }
     }
   }
 
   _fadeSlideProgress(slideIndex) {
-    const navItems = document.querySelectorAll(".slide-nav-item");
+    const navItems = document.querySelectorAll('.slide-nav-item');
     if (navItems[slideIndex]) {
-      const progressFill = navItems[slideIndex].querySelector(
-        ".slide-progress-fill"
-      );
+      const progressFill = navItems[slideIndex].querySelector('.slide-progress-fill');
       if (progressFill) {
-        progressFill.style.opacity = "0";
-        setTimeout(() => (progressFill.style.width = "0%"), 300);
+        progressFill.style.opacity = '0';
+        setTimeout(() => (progressFill.style.width = '0%'), 300);
       }
     }
   }
 
   _quickResetProgress(slideIndex) {
-    const navItems = document.querySelectorAll(".slide-nav-item");
+    const navItems = document.querySelectorAll('.slide-nav-item');
     if (navItems[slideIndex]) {
-      const progressFill = navItems[slideIndex].querySelector(
-        ".slide-progress-fill"
-      );
+      const progressFill = navItems[slideIndex].querySelector('.slide-progress-fill');
       if (progressFill) {
-        progressFill.style.transition = "width 0.2s ease-out";
-        progressFill.style.width = "0%";
+        progressFill.style.transition = 'width 0.2s ease-out';
+        progressFill.style.width = '0%';
         setTimeout(() => {
-          progressFill.style.transition = "width 0.1s ease, opacity 0.3s ease";
+          progressFill.style.transition = 'width 0.1s ease, opacity 0.3s ease';
         }, 200);
       }
     }
   }
 
   createNavigationUI() {
-    const navContainer = document.getElementById("slidesNav");
-    if (!navContainer) return;
+    const navContainer = document.getElementById('slidesNav');
+    if (!navContainer) {
+      return;
+    }
 
-    navContainer.innerHTML = "";
+    navContainer.innerHTML = '';
 
     this.slides.forEach((slide, index) => {
-      const navItem = document.createElement("div");
-      navItem.className = `slide-nav-item ${index === 0 ? "active" : ""}`;
+      const navItem = document.createElement('div');
+      navItem.className = `slide-nav-item ${index === 0 ? 'active' : ''}`;
       navItem.dataset.slideIndex = index;
       navItem.innerHTML = `
         <div class="slide-progress-line">
@@ -219,7 +222,7 @@ export class NavigationController {
       `;
 
       // Event listener para clique
-      navItem.addEventListener("click", (e) => {
+      navItem.addEventListener('click', (e) => {
         e.stopPropagation();
         const targetIndex = parseInt(navItem.dataset.slideIndex);
         this.navigateTo(targetIndex);
@@ -231,8 +234,10 @@ export class NavigationController {
 
   _setupEventListeners() {
     // Clique geral (próximo slide)
-    document.addEventListener("click", (e) => {
-      if (e.target.closest(".slides-navigation")) return;
+    document.addEventListener('click', (e) => {
+      if (e.target.closest('.slides-navigation')) {
+        return;
+      }
       if (this.enabled && !this.transitionManager.inProgress) {
         this._stopAllTimers();
         this._quickResetProgress(this.currentIndex);
@@ -241,15 +246,17 @@ export class NavigationController {
     });
 
     // Teclado
-    document.addEventListener("keydown", (e) => {
-      if (!this.enabled || this.transitionManager.inProgress) return;
+    document.addEventListener('keydown', (e) => {
+      if (!this.enabled || this.transitionManager.inProgress) {
+        return;
+      }
 
-      if (e.code === "Space" || e.code === "ArrowRight") {
+      if (e.code === 'Space' || e.code === 'ArrowRight') {
         e.preventDefault();
         this._stopAllTimers();
         this._quickResetProgress(this.currentIndex);
         this.next();
-      } else if (e.code === "ArrowLeft") {
+      } else if (e.code === 'ArrowLeft') {
         e.preventDefault();
         this._stopAllTimers();
         this._quickResetProgress(this.currentIndex);
@@ -258,17 +265,17 @@ export class NavigationController {
     });
 
     // Touch events (mobile)
-    document.addEventListener("touchstart", (e) => {
+    document.addEventListener('touchstart', (e) => {
       this.touchStartX = e.changedTouches[0].screenX;
     });
 
-    document.addEventListener("touchend", (e) => {
+    document.addEventListener('touchend', (e) => {
       this.touchEndX = e.changedTouches[0].screenX;
       this._handleSwipe();
     });
 
     // Visibility change (pausa quando tab não está visível)
-    document.addEventListener("visibilitychange", () => {
+    document.addEventListener('visibilitychange', () => {
       if (document.hidden) {
         this._stopAllTimers();
       } else if (this.enabled && !this.transitionManager.inProgress) {
@@ -283,7 +290,9 @@ export class NavigationController {
   _handleSwipe() {
     const swipeDistance = Math.abs(this.touchEndX - this.touchStartX);
 
-    if (swipeDistance < this.minSwipeDistance) return;
+    if (swipeDistance < this.minSwipeDistance) {
+      return;
+    }
 
     if (this.touchEndX < this.touchStartX) {
       // Swipe left - next

@@ -1,12 +1,12 @@
-import "./style.css";
-import * as THREE from "three";
-import { SLIDES_DATA } from "./config/slide.config.js";
-import { ShaderManager } from "./core/ShaderManager.js";
-import { SlideTextureLoader } from "./core/TextureLoader.js";
-import { TransitionManager } from "./core/TransitionManager.js";
-import { NavigationController } from "./core/NavigationController.js";
-import { UIController } from "./core/UIController.js";
-import { EffectRandomizer } from "./utils/Randomizer.js";
+import './style.css';
+import * as THREE from 'three';
+import { SLIDES_DATA } from './config/slide.config.js';
+import { ShaderManager } from './core/ShaderManager.js';
+import { SlideTextureLoader } from './core/TextureLoader.js';
+import { TransitionManager } from './core/TransitionManager.js';
+import { NavigationController } from './core/NavigationController.js';
+import { UIController } from './core/UIController.js';
+import { EffectRandomizer } from './utils/Randomizer.js';
 
 class SliderLoadingManager {
   constructor() {
@@ -20,7 +20,7 @@ class SliderLoadingManager {
   }
 
   createLoadingScreen() {
-    this.overlay = document.createElement("div");
+    this.overlay = document.createElement('div');
     this.overlay.style.cssText = `
       position: fixed;
       top: 0;
@@ -34,11 +34,11 @@ class SliderLoadingManager {
       z-index: 10000;
     `;
 
-    this.canvas = document.createElement("canvas");
+    this.canvas = document.createElement('canvas');
     this.canvas.width = 300;
     this.canvas.height = 300;
 
-    this.ctx = this.canvas.getContext("2d");
+    this.ctx = this.canvas.getContext('2d');
     this.overlay.appendChild(this.canvas);
     document.body.appendChild(this.overlay);
 
@@ -60,20 +60,19 @@ class SliderLoadingManager {
     ];
 
     const colors = {
-      primary: "#ffffffff",
-      accent: "#dddddd",
+      primary: '#ffffffff',
+      accent: '#dddddd',
     };
 
     const easeInOutSine = (t) => -(Math.cos(Math.PI * t) - 1) / 2;
-    const easeInOutCubic = (t) =>
-      t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+    const easeInOutCubic = (t) => (t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2);
     const smoothstep = (edge0, edge1, x) => {
       const t = Math.max(0, Math.min(1, (x - edge0) / (edge1 - edge0)));
       return t * t * (3 - 2 * t);
     };
 
     const hexToRgb = (hex) => {
-      if (hex.startsWith("#")) {
+      if (hex.startsWith('#')) {
         return [
           parseInt(hex.slice(1, 3), 16),
           parseInt(hex.slice(3, 5), 16),
@@ -81,9 +80,7 @@ class SliderLoadingManager {
         ];
       }
       const match = hex.match(/\d+/g);
-      return match
-        ? [parseInt(match[0]), parseInt(match[1]), parseInt(match[2])]
-        : [255, 255, 255];
+      return match ? [parseInt(match[0]), parseInt(match[1]), parseInt(match[2])] : [255, 255, 255];
     };
 
     const interpolateColor = (color1, color2, t, opacity = 1) => {
@@ -96,8 +93,12 @@ class SliderLoadingManager {
     };
 
     const animate = (timestamp) => {
-      if (!this.startTime) this.startTime = timestamp;
-      if (!lastTime) lastTime = timestamp;
+      if (!this.startTime) {
+        this.startTime = timestamp;
+      }
+      if (!lastTime) {
+        lastTime = timestamp;
+      }
 
       const deltaTime = timestamp - lastTime;
       lastTime = timestamp;
@@ -115,8 +116,7 @@ class SliderLoadingManager {
         for (let i = 0; i < ring.count; i++) {
           const angle = (i / ring.count) * Math.PI * 2;
           const pulseTime = time * 2 - ringIndex * 0.4;
-          const radiusPulse =
-            easeInOutSine((Math.sin(pulseTime) + 1) / 2) * 6 - 3;
+          const radiusPulse = easeInOutSine((Math.sin(pulseTime) + 1) / 2) * 6 - 3;
           const x = centerX + Math.cos(angle) * (ring.radius + radiusPulse);
           const y = centerY + Math.sin(angle) * (ring.radius + radiusPulse);
 
@@ -155,14 +155,14 @@ class SliderLoadingManager {
     }
 
     if (this.overlay) {
-      this.overlay.style.opacity = "0";
-      this.overlay.style.transition = "opacity 0.8s ease";
+      this.overlay.style.opacity = '0';
+      this.overlay.style.transition = 'opacity 0.8s ease';
       setTimeout(() => {
         this.overlay?.remove();
         setTimeout(() => {
-          const sliderWrapper = document.querySelector(".slider-wrapper");
+          const sliderWrapper = document.querySelector('.slider-wrapper');
           if (sliderWrapper) {
-            sliderWrapper.classList.add("loaded");
+            sliderWrapper.classList.add('loaded');
           }
         }, 500);
       }, 800);
@@ -185,7 +185,7 @@ class SliderApplication {
   }
 
   async init() {
-    console.log("🚀 Initializing Slider Application...");
+    console.log('🚀 Initializing Slider Application...');
 
     this._createModules();
 
@@ -197,7 +197,7 @@ class SliderApplication {
 
     this._start();
 
-    console.log("✅ Slider Application Ready!");
+    console.log('✅ Slider Application Ready!');
   }
 
   _createModules() {
@@ -220,16 +220,16 @@ class SliderApplication {
   }
 
   async _setupThreeJS() {
-    const canvas = document.querySelector(".webgl-canvas");
+    const canvas = document.querySelector('.webgl-canvas');
     if (!canvas) {
-      throw new Error("Canvas .webgl-canvas not found");
+      throw new Error('Canvas .webgl-canvas not found');
     }
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.OrthographicCamera(-1, 1, 1, -1, 0, 1);
 
     this.renderer = new THREE.WebGLRenderer({
-      canvas: canvas,
+      canvas,
       antialias: false,
       alpha: false,
     });
@@ -242,18 +242,18 @@ class SliderApplication {
     const mesh = new THREE.Mesh(geometry, material);
     this.scene.add(mesh);
 
-    window.addEventListener("resize", () => this._onResize());
+    window.addEventListener('resize', () => this._onResize());
 
     this._startRenderLoop();
   }
 
   async _loadTextures() {
-    console.log("📦 Loading textures...");
+    console.log('📦 Loading textures...');
 
     const textures = await this.textureLoader.loadAllTextures(SLIDES_DATA);
 
     if (textures.length < 2) {
-      throw new Error("Not enough textures loaded");
+      throw new Error('Not enough textures loaded');
     }
 
     this.shaderManager.updateTextures(textures[0], textures[1]);
@@ -308,8 +308,8 @@ class SliderApplication {
   }
 }
 
-document.addEventListener("DOMContentLoaded", async function () {
-  const loadingManager = new SliderLoadingManager();
+document.addEventListener('DOMContentLoaded', async function () {
+  const _loadingManager = new SliderLoadingManager();
 
   await new Promise((resolve) => setTimeout(resolve, 500));
 
@@ -318,6 +318,6 @@ document.addEventListener("DOMContentLoaded", async function () {
   try {
     await app.init();
   } catch (error) {
-    console.error("❌ Failed to initialize slider:", error);
+    console.error('❌ Failed to initialize slider:', error);
   }
 });

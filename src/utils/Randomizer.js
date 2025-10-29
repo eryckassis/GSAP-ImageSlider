@@ -1,10 +1,10 @@
 // src/utils/EffectRandomizer.js
 
-import { SLIDER_CONFIG } from "../config/slide.config";
+import { SLIDER_CONFIG } from '../config/slide.config';
 
 export class EffectRandomizer {
   constructor() {
-    this.effectTypes = ["glass", "frost", "ripple", "plasma", "timeshift"];
+    this.effectTypes = ['glass', 'frost', 'ripple', 'plasma', 'timeshift'];
   }
 
   randomize() {
@@ -15,7 +15,7 @@ export class EffectRandomizer {
 
     this._randomizeEffectSettings(randomEffect);
 
-    SLIDER_CONFIG.settings.currentEffectPreset = "Custom";
+    SLIDER_CONFIG.settings.currentEffectPreset = 'Custom';
 
     return randomEffect;
   }
@@ -34,33 +34,27 @@ export class EffectRandomizer {
 
   _randomizeEffectSettings(effectName) {
     switch (effectName) {
-      case "glass":
+      case 'glass':
         this._randomizeGlass();
         break;
-      case "frost":
+      case 'frost':
         this._randomizeFrost();
         break;
-      case "ripple":
+      case 'ripple':
         this._randomizeRipple();
         break;
-      case "plasma":
+      case 'plasma':
         this._randomizePlasma();
         break;
-      case "timeshift":
+      case 'timeshift':
         this._randomizeTimeshift();
         break;
     }
   }
 
   _randomizeGlass() {
-    SLIDER_CONFIG.settings.glassRefractionStrength = this._randomRange(
-      0.5,
-      2.0
-    );
-    SLIDER_CONFIG.settings.glassChromaticAberration = this._randomRange(
-      0.3,
-      2.0
-    );
+    SLIDER_CONFIG.settings.glassRefractionStrength = this._randomRange(0.5, 2.0);
+    SLIDER_CONFIG.settings.glassChromaticAberration = this._randomRange(0.3, 2.0);
     SLIDER_CONFIG.settings.glassBubbleClarity = this._randomRange(0.5, 1.5);
     SLIDER_CONFIG.settings.glassEdgeGlow = this._randomRange(0, 2.0);
     SLIDER_CONFIG.settings.glassLiquidFlow = this._randomRange(0.3, 2.5);
