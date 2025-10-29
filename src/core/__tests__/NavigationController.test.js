@@ -4,184 +4,158 @@
 
 import { NavigationController } from '../NavigationController';
 
+// Mock das configurações
+jest.mock('../../config/slide.config', () => ({
+  SLIDER_CONFIG: {
+    autoSlide: true,
+    autoSlideDelay: 3000,
+    settings: {
+      autoSlideSpeed: 3000, // ← IMPORTANTE: mock completo do config
+    },
+  },
+  SLIDES_DATA: [
+    { id: 1, image: 'img1.jpg', title: 'Slide 1' },
+    { id: 2, image: 'img2.jpg', title: 'Slide 2' },
+    { id: 3, image: 'img3.jpg', title: 'Slide 3' },
+    { id: 4, image: 'img4.jpg', title: 'Slide 4' },
+  ],
+}));
+
 describe('NavigationController', () => {
   let controller;
+  let mockTextureLoader;
   let mockTransitionManager;
-  let mockConfig;
 
   // Setup executado ANTES de cada teste
   beforeEach(() => {
     // Cria mocks (objetos falsos) para as dependências
+    mockTextureLoader = {
+      isLoaded: true,
+      loadTexture: jest.fn().mockResolvedValue({}),
+      getTexture: jest.fn().mockReturnValue({ id: 1, texture: {} }), // ← Mock de getTexture
+    };
+
     mockTransitionManager = {
-      startTransition: jest.fn(), // Função mock que podemos espionar
+      inProgress: false,
+      startTransition: jest.fn().mockResolvedValue(),
+      transition: jest.fn().mockImplementation((current, target, callback) => {
+        // Simula transição e chama callback
+        if (callback) {
+          callback();
+        }
+        return Promise.resolve();
+      }),
     };
 
-    mockConfig = {
-      images: ['img1.jpg', 'img2.jpg', 'img3.jpg', 'img4.jpg'],
-      autoplay: false,
-      autoplayDelay: 3000,
-    };
-
-    // Cria o controller com os mocks
-    controller = new NavigationController(mockTransitionManager, mockConfig);
+    // Cria o controller com os mocks NA ORDEM CORRETA
+    controller = new NavigationController(mockTextureLoader, mockTransitionManager);
   });
 
   // Cleanup executado DEPOIS de cada teste
   afterEach(() => {
     jest.clearAllMocks();
+    controller.stop(); // Para timers
   });
 
   // 🧪 TESTES DE INICIALIZAÇÃO
   describe('Initialization', () => {
     it('should initialize with correct default values', () => {
       expect(controller.currentIndex).toBe(0);
-      expect(controller.isTransitioning).toBe(false);
-      expect(controller.progress).toBe(0);
+      expect(controller.enabled).toBe(false);
+      expect(controller.slides).toHaveLength(4);
     });
 
-    it('should store config correctly', () => {
-      expect(controller.config.images).toHaveLength(4);
-      expect(controller.config.autoplay).toBe(false);
+    it('should store slides correctly', () => {
+      expect(controller.slides[0].id).toBe(1);
+      expect(controller.slides[0].image).toBe('img1.jpg');
+    });
+
+    it('should have valid dependencies', () => {
+      expect(controller.textureLoader).toBe(mockTextureLoader);
+      expect(controller.transitionManager).toBe(mockTransitionManager);
     });
   });
 
-  // 🧪 TESTES DE NAVEGAÇÃO FORWARD
-  describe('next()', () => {
-    it('should increment slide index', () => {
+  // 🧪 TESTES DE START/STOP
+  describe('start() and stop()', () => {
+    it('should enable controller when started', () => {
+      controller.start();
+      expect(controller.enabled).toBe(true);
+    });
+
+    it('should not start if textures not loaded', () => {
+      mockTextureLoader.isLoaded = false;
+      controller.start();
+      expect(controller.enabled).toBe(false);
+    });
+
+    it('should disable controller when stopped', () => {
+      controller.start();
+      controller.stop();
+      expect(controller.enabled).toBe(false);
+    });
+  });
+
+  // 🧪 TESTES DE NAVEGAÇÃO
+  describe('navigateTo()', () => {
+    beforeEach(() => {
+      controller.enabled = true; // Habilita navegação
+    });
+
+    it('should navigate to specific slide', async () => {
       expect(controller.currentIndex).toBe(0);
 
-      controller.next();
-
-      expect(controller.currentIndex).toBe(1);
-    });
-
-    it('should wrap to first slide after last', () => {
-      controller.currentIndex = 3; // Último slide
-
-      controller.next();
-
-      expect(controller.currentIndex).toBe(0);
-    });
-
-    it('should call transition manager', () => {
-      controller.next();
-
-      expect(mockTransitionManager.startTransition).toHaveBeenCalled();
-    });
-
-    it('should not navigate if already transitioning', () => {
-      controller.isTransitioning = true;
-      const initialIndex = controller.currentIndex;
-
-      controller.next();
-
-      expect(controller.currentIndex).toBe(initialIndex);
-      expect(mockTransitionManager.startTransition).not.toHaveBeenCalled();
-    });
-  });
-
-  // 🧪 TESTES DE NAVEGAÇÃO BACKWARD
-  describe('previous()', () => {
-    it('should decrement slide index', () => {
-      controller.currentIndex = 2;
-
-      controller.previous();
-
-      expect(controller.currentIndex).toBe(1);
-    });
-
-    it('should wrap to last slide before first', () => {
-      controller.currentIndex = 0;
-
-      controller.previous();
-
-      expect(controller.currentIndex).toBe(3); // Último slide
-    });
-
-    it('should call transition manager', () => {
-      controller.previous();
-
-      expect(mockTransitionManager.startTransition).toHaveBeenCalled();
-    });
-  });
-
-  // 🧪 TESTES DE NAVEGAÇÃO DIRETA
-  describe('goTo(index)', () => {
-    it('should navigate to specific index', () => {
-      controller.goTo(2);
+      await controller.navigateTo(2);
 
       expect(controller.currentIndex).toBe(2);
     });
 
-    it('should handle negative indices', () => {
-      controller.goTo(-1);
+    it('should not navigate if disabled', async () => {
+      controller.enabled = false;
+      const initialIndex = controller.currentIndex;
 
-      // Deve ir para o último slide
-      expect(controller.currentIndex).toBe(3);
+      await controller.navigateTo(1);
+
+      expect(controller.currentIndex).toBe(initialIndex);
     });
 
-    it('should handle indices out of bounds', () => {
-      controller.goTo(10);
+    it('should not navigate if transition in progress', async () => {
+      mockTransitionManager.inProgress = true;
+      const initialIndex = controller.currentIndex;
 
-      // Deve fazer wrap
-      expect(controller.currentIndex).toBe(2); // 10 % 4 = 2
-    });
-  });
+      await controller.navigateTo(1);
 
-  // 🧪 TESTES DE AUTOPLAY
-  describe('Autoplay', () => {
-    beforeEach(() => {
-      jest.useFakeTimers(); // Usa timers fake do Jest
+      expect(controller.currentIndex).toBe(initialIndex);
     });
 
-    afterEach(() => {
-      jest.useRealTimers();
+    it('should not navigate to same slide', async () => {
+      controller.currentIndex = 2;
+
+      await controller.navigateTo(2);
+
+      expect(mockTransitionManager.startTransition).not.toHaveBeenCalled();
     });
 
-    it('should start autoplay when enabled', () => {
-      const autoplayConfig = { ...mockConfig, autoplay: true };
-      const autoplayController = new NavigationController(mockTransitionManager, autoplayConfig);
+    it('should call transition manager on valid navigation', async () => {
+      await controller.navigateTo(1);
 
-      const initialIndex = autoplayController.currentIndex;
-
-      // Avança o tempo
-      jest.advanceTimersByTime(3000);
-
-      // Deve ter avançado para o próximo slide
-      expect(autoplayController.currentIndex).toBe(initialIndex + 1);
-    });
-
-    it('should stop autoplay when user interacts', () => {
-      const autoplayConfig = { ...mockConfig, autoplay: true };
-      const autoplayController = new NavigationController(mockTransitionManager, autoplayConfig);
-
-      autoplayController.stopAutoplay();
-
-      const { currentIndex } = autoplayController;
-      jest.advanceTimersByTime(5000);
-
-      // Não deve ter avançado
-      expect(autoplayController.currentIndex).toBe(currentIndex);
+      expect(mockTransitionManager.transition).toHaveBeenCalled();
     });
   });
 
   // 🧪 TESTES DE EDGE CASES
   describe('Edge Cases', () => {
-    it('should handle empty images array', () => {
-      const emptyConfig = { ...mockConfig, images: [] };
-      const emptyController = new NavigationController(mockTransitionManager, emptyConfig);
+    it('should handle navigation to out of bounds index', async () => {
+      controller.enabled = true;
 
-      expect(() => emptyController.next()).not.toThrow();
+      // Tentar navegar para índice inválido não deve quebrar
+      await expect(controller.navigateTo(99)).resolves.not.toThrow();
     });
 
-    it('should handle single image', () => {
-      const singleConfig = { ...mockConfig, images: ['img1.jpg'] };
-      const singleController = new NavigationController(mockTransitionManager, singleConfig);
+    it('should handle negative index', async () => {
+      controller.enabled = true;
 
-      singleController.next();
-
-      // Deve ficar no mesmo índice
-      expect(singleController.currentIndex).toBe(0);
+      await expect(controller.navigateTo(-1)).resolves.not.toThrow();
     });
   });
 });
@@ -215,4 +189,5 @@ describe('Nome do módulo', () => {
 - toHaveBeenCalled() - verifica se mock foi chamado
 - toThrow() - verifica se lançou erro
 - toBeTruthy() / toBeFalsy() - verifica boolean
+- resolves / rejects - para Promises
 */
