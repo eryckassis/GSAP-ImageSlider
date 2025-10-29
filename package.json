@@ -16,6 +16,11 @@
     "test:ci": "jest --ci --coverage --maxWorkers=2",
     "test:coverage": "jest --coverage",
     "test:unit": "jest --testPathPattern=test.js",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:debug": "playwright test --debug",
+    "test:e2e:headed": "playwright test --headed",
+    "test:e2e:report": "playwright show-report",
     "prepare": "husky"
   },
   "devDependencies": {
@@ -24,6 +29,7 @@
     "@commitlint/cli": "^19.8.1",
     "@commitlint/config-conventional": "^19.8.1",
     "@eslint/js": "^9.38.0",
+    "@playwright/test": "^1.56.1",
     "@testing-library/dom": "^10.4.1",
     "babel-jest": "^30.2.0",
     "eslint": "^9.38.0",

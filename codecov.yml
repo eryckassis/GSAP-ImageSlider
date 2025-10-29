@@ -1,0 +1,100 @@
+# Codecov Configuration
+# 🎯 Analogia: O "Auditor de Qualidade" - mede quanto do código está testado
+# https://docs.codecov.com/docs/codecov-yaml
+
+coverage:
+  status:
+    # Status do projeto inteiro
+    project:
+      default:
+        target: 70%           # Meta mínima de cobertura
+        threshold: 2%         # Tolerância de queda
+        if_ci_failed: error   # Falha se CI falhar
+    
+    # Status do patch (código novo)
+    patch:
+      default:
+        target: 80%           # Código novo deve ter 80%+ coverage
+        threshold: 5%         # Tolerância
+        if_ci_failed: error
+
+# Comentário automático em PRs
+comment:
+  layout: "header, diff, flags, components, footer"
+  behavior: default
+  require_changes: false      # Comenta mesmo sem mudanças
+  require_base: false
+  require_head: true
+
+# Arquivos ignorados
+ignore:
+  - "**/*.test.js"
+  - "**/*.spec.js"
+  - "**/__tests__/**"
+  - "**/node_modules/**"
+  - "dist/**"
+  - "coverage/**"
+  - "*.config.js"
+  - "jest.setup.js"
+  - "__mocks__/**"
+  - "e2e/**"
+  - "src/setup-structure.js"
+
+# Componentes (divide coverage por módulo)
+component_management:
+  default_rules:
+    statuses:
+      - type: project
+        target: 70%
+  
+  individual_components:
+    # Core modules (mais críticos)
+    - component_id: core
+      name: Core Modules
+      paths:
+        - src/core/**
+      rules:
+        statuses:
+          - type: project
+            target: 80%
+    
+    # Utils (menos críticos)
+    - component_id: utils
+      name: Utilities
+      paths:
+        - src/utils/**
+      rules:
+        statuses:
+          - type: project
+            target: 75%
+    
+    # Config
+    - component_id: config
+      name: Configuration
+      paths:
+        - src/config/**
+      rules:
+        statuses:
+          - type: project
+            target: 60%
+
+# Flags (separa tipos de teste)
+flags:
+  unit:
+    paths:
+      - src/
+    carryforward: true
+
+# 🎯 COMO USAR:
+#
+# 1. Criar conta em https://codecov.io
+# 2. Adicionar repositório
+# 3. Copiar token e adicionar em GitHub Secrets (CODECOV_TOKEN)
+# 4. CI envia coverage automaticamente
+# 5. Codecov comenta em PRs com relatório
+#
+# 📊 MÉTRICAS:
+# - Lines: linhas executadas
+# - Statements: statements executados
+# - Branches: ramificações (if/else) testadas
+# - Functions: funções testadas

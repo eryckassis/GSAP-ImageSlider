@@ -1,0 +1,89 @@
+# Dependabot Configuration
+# 🎯 Analogia: O "Assistente de Manutenção Preventiva"
+# Atualiza dependências automaticamente e cria PRs
+
+version: 2
+updates:
+  # 📦 NPM Dependencies
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/Sao_Paulo"
+    
+    # Limites e configurações
+    open-pull-requests-limit: 10
+    
+    # Assignees
+    assignees:
+      - "eryckassis"
+    
+    # Mensagens de commit
+    commit-message:
+      prefix: "chore(deps)"
+      include: "scope"
+    
+    # Labels
+    labels:
+      - "dependencies"
+      - "automated"
+    
+    # Estratégia de versionamento
+    versioning-strategy: increase
+    
+    # Grupos de dependências
+    groups:
+      # Grupo 1: Dependências de desenvolvimento
+      development-dependencies:
+        dependency-type: "development"
+        update-types:
+          - "minor"
+          - "patch"
+      
+      # Grupo 2: Dependências de produção
+      production-dependencies:
+        dependency-type: "production"
+        update-types:
+          - "minor"
+          - "patch"
+    
+    # Ignora major updates (revisar manualmente)
+    ignore:
+      - dependency-name: "*"
+        update-types: ["version-update:semver-major"]
+
+  # 🔧 GitHub Actions
+  - package-ecosystem: "github-actions"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      time: "09:00"
+      timezone: "America/Sao_Paulo"
+    
+    commit-message:
+      prefix: "ci"
+    
+    labels:
+      - "ci"
+      - "automated"
+
+# 🎯 COMO FUNCIONA:
+# 
+# 1. Dependabot verifica atualizações toda segunda às 9h
+# 2. Cria PRs automáticos para cada grupo de dependências
+# 3. PRs incluem changelog e notas de release
+# 4. CI/CD roda automaticamente nos PRs
+# 5. Se tudo passar, você pode fazer merge
+#
+# 📝 TIPOS DE UPDATE:
+# - patch: 1.0.0 → 1.0.1 (bugfixes)
+# - minor: 1.0.0 → 1.1.0 (new features)
+# - major: 1.0.0 → 2.0.0 (breaking changes)
+#
+# ⚙️ ESTRATÉGIAS:
+# - increase: sempre aumenta versão
+# - widen: aumenta range (^1.0.0 → ^2.0.0)
+# - auto: Dependabot decide
