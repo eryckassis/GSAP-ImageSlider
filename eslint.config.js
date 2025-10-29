@@ -56,6 +56,16 @@ export default [
     },
   },
 
+  // 🧪 Configuração específica para arquivos de teste
+  {
+    files: ['**/*.test.js', '**/*.spec.js', '**/__tests__/**/*.js'],
+    languageOptions: {
+      globals: {
+        ...globals.jest, // Adiciona globals do Jest (describe, it, expect, etc)
+      },
+    },
+  },
+
   // 🚫 Arquivos e pastas que o ESLint deve ignorar
   {
     ignores: [
@@ -65,6 +75,8 @@ export default [
       'playwright-report/**', // Relatórios E2E
       'test-results/**', // Resultados de testes
       '*.config.js', // Arquivos de config (este próprio arquivo)
+      'jest.setup.js', // Setup de testes (usa globals do Jest)
+      '__mocks__/**', // Mocks de teste
     ],
   },
 ];

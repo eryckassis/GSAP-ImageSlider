@@ -10,5 +10,9 @@ package-lock.json
 *.min.js
 *.bundle.js
 
+# Ignore test setup (jest globals)
+jest.setup.js
+__mocks__
+
 # Ignore markdown (para não quebrar o ROADMAP)
 *.md
