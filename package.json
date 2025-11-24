@@ -46,8 +46,8 @@
   },
   "dependencies": {
     "gsap": "^3.13.0",
-    "nodemon": "^3.1.10",
-    "three": "^0.180.0",
+    "nodemon": "^3.1.11",
+    "three": "^0.181.2",
     "tweakpane": "^4.0.5"
   }
 }
